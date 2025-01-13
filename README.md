@@ -11,7 +11,9 @@ a una base de datos local.
 Algunas de la implementaciones futuras para esta app:
  📍 Mejorar el acceso a la aplicación mediante verificación de usuarios para cada sesión
  📍 Añadir sección de trailers para cada peli 
- 📍 Mapa de cines o plataformas de reproducción
+ 📍 Mapa de cines o plataformas de reproducción 
+
+ Link: https://youtu.be/LKiM4K0fCso
 
 ## Getting Started
 
@@ -25,4 +27,6 @@ to add and save favorite or recent movies to movie billboards to a local databas
 Some of the future implementations for this app: 
 📍 Improve the access to the application by verifying users for each session 
 📍 Add trailer section for each movie 
-📍 Map of cinemas or playback platforms
+📍 Map of cinemas or playback platforms 
+
+ Link: https://youtu.be/LKiM4K0fCso
