@@ -1,0 +1,71 @@
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
+
+import '../../../domain/entities/movie.dart';
+import '../../../domain/repositories/local_storage_repository.dart';
+import '../providers.dart';
+
+
+
+
+final favoriteMoviesProvider = StateNotifierProvider<StorageMoviesNotifier,Map<int,Movie>>((ref) {
+  final localStorageRepository = ref.watch( localStorageRepositoryProvider );
+  return StorageMoviesNotifier(localStorageRepository: localStorageRepository);
+});
+
+
+class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>> {
+  
+  int page = 0;
+  final LocalStorageRepository localStorageRepository; 
+  
+
+  StorageMoviesNotifier({
+    required this.localStorageRepository
+  }): super({});
+
+
+  Future<List<Movie>> loadNextPage() async {
+    final movies = await localStorageRepository.loadMovies(offset: page * 10, limit: 20);
+    page++;
+    
+    final tempMoviesMap = <int, Movie>{};
+    for( final movie in movies ) {
+      tempMoviesMap[movie.id] = movie;
+    }
+
+    state = { ...state, ...tempMoviesMap };
+
+    return movies;
+  }
+
+  Future<void> toggleFavorite( Movie movie ) async { 
+    await localStorageRepository.toggleFavorite(movie);
+    final bool isMovieInFavorites = state[movie.id] != null;
+
+    if ( isMovieInFavorites ) {
+      state.remove(movie.id);
+      state = { ...state };
+    } else {
+      state = { ...state, movie.id: movie };
+    }
+  } 
+
+  Future<void> deleteFavorite(Id movieId) async {
+  // Llama al repositorio para eliminar todas las películas favoritas
+  await localStorageRepository.deleteFavorite(movieId);
+
+  // Limpia el estado que contiene las películas favoritas
+  state.clear();
+  state = { ...state };
+}
+
+
+
+
+
+
+
+}
+
